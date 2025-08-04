@@ -1,15 +1,22 @@
-/* --- General Styling --- */
+/* --- General Styling for TV --- */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
-body {
+html, body {
+  height: 100vh; /* Full viewport height */
+  overflow: hidden; /* Prevent scrolling on the body */
   font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   background-color: #f0f4f8;
-  color: #1e293b; /* slate-800 */
-  line-height: 1.6;
+  color: #1e293b;
+}
+
+.dashboard-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
 }
 
 /* --- Header --- */
@@ -17,249 +24,181 @@ header {
   background: linear-gradient(90deg, #02c768, #0369a1);
   color: white;
   text-align: center;
-  padding: 2.5rem 1rem;
+  padding: 3rem;
   border-bottom: 5px solid #02c768;
+  position: relative;
+  flex-shrink: 0; /* Prevent header from shrinking */
 }
 
 header h1 {
-  font-size: 2.25rem;
-  font-weight: 700;
-  margin-bottom: 0.5rem;
+  margin-top: -1rem;
+  font-size: 3rem;
+  font-weight: 800;
 }
 
 header p {
-  font-size: 1.1rem;
+  font-size: 1.3rem;
   color: #e0f2fe;
+  margin-bottom: -0.5rem;
+  padding-top: 0.5rem;
+}
+
+/* --- Logo Styling --- */
+#logo {
+  position: absolute;
+  top: 50%;
+  right: 220px;
+  transform: translateY(-50%);
+  height: 130px; /* Adjusted size */
+  width: auto;
 }
 
 /* --- Main Content --- */
 main {
-  max-width: 1200px;
-  margin: 2rem auto;
-  padding: 0 1rem;
+  flex-grow: 1; /* Take up remaining vertical space */
   display: grid;
-  grid-template-columns: 1fr;
-  gap: 3rem;
-}
-
-@media (min-width: 1024px) {
-  main {
-    grid-template-columns: 2fr 1fr;
-  }
-}
-
-section {
-  background-color: #ffffff;
-  padding: 2rem;
-  border-radius: 16px;
-  box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -2px rgba(0,0,0,0.05);
-}
-
-h2 {
-  margin-bottom: 0.5rem;
-  color: #0369a1;
-  text-align: center;
-  font-size: 1.75rem;
-  font-weight: 600;
+  grid-template-columns: 1fr 1fr; /* Two vertical halves */
+  gap: 1.5rem;
+  padding: 1.5rem;
+  overflow: hidden; /* Prevent main from overflowing */
 }
 
 #last-updated {
+  grid-column: 1 / -1; /* Span across both columns */
   text-align: center;
   color: #64748b;
-  margin-bottom: 1.5rem;
-  font-size: 0.9rem;
+  font-size: 1.2rem;
 }
 
-/* --- Sensor Data Grid --- */
+/* --- Column Styling --- */
+.left-column {
+  display: grid; /* MODIFIED: Now a grid */
+  grid-template-columns: 1fr 1fr; /* MODIFIED: Two vertical sections */
+  gap: 1.5rem;
+  height: 100%;
+}
+
+.right-column {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.left-column > section {
+  height: 100%; /* Make sections fill the grid cell height */
+}
+
+/* --- Card & Section Styling --- */
+section {
+  background-color: #ffffff;
+  padding: 1.5rem;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px -2px rgba(0,0,0,0.1);
+  display: flex;
+  flex-direction: column;
+}
+
+section h2 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #0369a1;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+/* --- Main AQI Card Styling --- */
+.main-aqi-card {
+  background: #e0f7fa;
+  border-left: 6px solid #0284c7;
+  align-items: center;
+  justify-content: center;
+}
+
+.main-aqi-card #calculated-aqi {
+  font-size: 6rem; /* Adjusted for space */
+  font-weight: 700;
+  color: #0f172a;
+  line-height: 1;
+}
+
+.main-aqi-card #aqi-category {
+  font-size: 1.5rem; /* Adjusted for space */
+  font-weight: 600;
+  color: #0f766e;
+  text-align: center;
+}
+
+/* --- Comparison Widget --- */
+.aqi-comparison .aqi-widget {
+  flex-grow: 1;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* --- Sensor Grid Container (Right Column) --- */
+.sensor-grid-container {
+  flex-grow: 1;
+}
+
 .grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-  gap: 1.5rem;
+  grid-template-columns: repeat(2, 1fr); /* MODIFIED: 2 columns */
+  grid-template-rows: repeat(3, 1fr);    /* MODIFIED: 3 rows */
+  gap: 1.5rem; /* Increased gap */
+  flex-grow: 1;
 }
 
 .card {
   background: #f8fafc;
-  padding: 1.5rem 1rem;
+  padding: 1rem;
   border-radius: 12px;
   border: 1px solid #e2e8f0;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
   text-align: center;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-.card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 8px 12px rgba(0,0,0,0.1);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 .card h3 {
   color: #0ea5e9;
-  margin-bottom: 0.75rem;
+  margin-bottom: 0.5rem;
   font-size: 1rem;
   font-weight: 500;
 }
 
 .card p {
-  font-size: 1.5rem;
+  font-size: 1.75rem; /* Adjusted for space */
   font-weight: 700;
   color: #0f172a;
 }
 
-/* --- AQI Widget --- */
-.aqi-comparison {
-  display: flex;
-  flex-direction: column;
-}
-
-.aqi-widget {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-grow: 1;
-  min-height: 300px;
-  background-color: #f8fafc;
-  padding: 1rem;
-  border-radius: 12px;
-  border: 1px solid #e2e8f0;
-}
-
-.aqi-bar-wrapper {
-  position: relative;
-  margin-top: 10px;
-}
-
-.aqi-bar {
-  display: flex;
-  border-radius: 8px;
-  overflow: hidden;
-  font-size: 0.8rem;
-  text-align: center;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-}
-    .aqi-scale-container {
-      background-color: #fff;
-      padding: 1rem;
-      border-radius: 10px;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-      margin-top: 2rem;
-    }
-    .aqi-bar-small {
-      position: relative;
-      display: flex;
-      height: 40px;
-      border-radius: 8px;
-      overflow: hidden;
-    }
-    .aqi-segment {
-      flex: 1;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 0.8rem;
-      font-weight: 600;
-      color: #fff;
-    }
-    .aqi-segment.good { background-color: #009966; }
-    .aqi-segment.moderate { background-color: #ffde33; color: #000; }
-    .aqi-segment.poor { background-color: #ff9933; }
-    .aqi-segment.unhealthy { background-color: #cc0033; }
-    .aqi-segment.severe { background-color: #660099; }
-    .aqi-segment.hazardous { background-color: #7e0023; }
-    .aqi-indicator-dot {
-      position: absolute;
-      top: -10px;
-      width: 20px;
-      height: 20px;
-      background: black;
-      border: 3px solid white;
-      border-radius: 50%;
-      transform: translateX(-50%);
-      transition: left 0.3s ease;
-    }
-
-.aqi-segment {
-  flex: 1;
-  padding: 6px 0;
-  color: white;
-  font-weight: bold;
-}
-.good { background: #00e400; }
-.moderate { background: #ffff00; color: #000; }
-.poor { background: #ff7e00; }
-.unhealthy { background: #ff0000; }
-.severe { background: #8f3f97; }
-.hazardous { background: #7e0023; }
-
-.aqi-indicator {
-  position: absolute;
-  top: -10px;
-  width: 12px;
-  height: 12px;
-  background: black;
-  border-radius: 50%;
-  transform: translateX(-50%);
-  transition: left 0.3s ease-in-out;
-}
-
-.card.aqi {
-  background: #e0f7fa;
-  border-left: 6px solid #0284c7;
-}
-
-.card.aqi p:nth-child(3) {
-  font-size: 1.2rem;
-  color: #0f766e;
-}
-
-
-.aqi-scale-container {
-  margin-top: 10px;
-  padding: 5px 10px;
-}
-
-.aqi-bar-small {
-  position: relative;
-  display: flex;
-  height: 20px;
-  width: 100%;
-  border-radius: 5px;
-  overflow: hidden;
-  font-size: 10px;
-  text-align: center;
-  line-height: 20px;
-  box-shadow: 0 0 3px rgba(0,0,0,0.1);
-}
-
-.aqi-segment {
-  flex: 1;
-  color: white;
-}
-
-.good { background: #00e400; }
-.moderate { background: #ffff00; color: black; }
-.poor { background: #ff7e00; }
-.unhealthy { background: #ff0000; }
-.severe { background: #8f3f97; }
-.hazardous { background: #7e0023; }
-
-.aqi-indicator-dot {
-  position: absolute;
-  top: -6px;
-  width: 12px;
-  height: 12px;
-  background: black;
-  border-radius: 50%;
-  border: 2px solid white;
-  transform: translateX(-50%);
-}
-
-
 /* --- Footer --- */
 footer {
   text-align: center;
-  padding: 1.5rem;
-  margin-top: 2rem;
+  padding: 0.75rem; /* Reduced padding */
   background: #e2e8f0;
   color: #475569;
   font-size: 0.9rem;
+  flex-shrink: 0; /* Prevent footer from shrinking */
+}
+
+/* Media query for smaller screens to re-enable scrolling */
+@media (max-width: 1200px), (max-height: 700px) {
+  html, body {
+      height: auto;
+      overflow: auto;
+  }
+  main, .left-column {
+      grid-template-columns: 1fr;
+  }
+  #logo {
+      position: static;
+      transform: none;
+      height: 60px;
+      margin: 0 auto 1rem;
+  }
+  header { text-align: center; }
 }
