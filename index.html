@@ -10,139 +10,142 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
-  <div class="dashboard-container">
-      <header>
-          <img id="logo" src="Hitam logo.png" alt="HITAM Logo" onerror="this.onerror=null;this.src='https://placehold.co/300x100/ffffff/1e293b?text=Logo+Not+Found';">
-          <h1>⛅ HITAM Weather Dashboard</h1>
-          <p>Real-Time Air Quality Monitoring at HITAM</p>
-      </header>
+<div class="dashboard-container">
+    <header>
+        <img id="logo" src="https://placehold.co/250x100/ffffff/02c768?text=HITAM&font=inter" alt="HITAM Logo" onerror="this.onerror=null;this.src='https://placehold.co/250x100/ffffff/1e293b?text=Logo+Not+Found';">
+        <h1>⛅ HITAM Weather Dashboard</h1>
+        <p>Real-Time Air Quality Monitoring at HITAM</p>
+    </header>
 
-      <main>
-          <p id="last-updated">Awaiting data...</p>
-          <div class="left-column">
-              <!-- Left-most section of the left panel -->
-              <section class="aqi-comparison">
-                  <h2>Hyderabad Air Quality Index (Live)</h2>
-                  <div class="aqi-widget">
-                      <div data-aqi-widget-payload="https://www.aqi.in/widget?p=eyJvX3ciOjEsIm9fd190X3UiOiJjIiwib190IjoiYyIsIndfdF9pIjoyLCJscyI6W3sicyI6ImluZGlhL3RlbGFuZ2FuYS9oeWRlcmFiYWQifV19">
+    <main>
+        <p id="last-updated">Awaiting data...</p>
+        
+        <div class="left-column">
+            <section class="aqi-comparison">
+                <h2>Hyderabad Air Quality Index (Live)</h2>
+                <div class="aqi-widget">
+                    <div data-aqi-widget-payload='{"o_w":1,"o_w_t_u":"c","o_t":"c","w_t_i":2,"ls":[{"s":"india/telangana/hyderabad"}]}'>
                         <script src="https://www.aqi.in/scripts/widget.min.js"></script>
-                      </div>
-                  </div>
-              </section>
-              <!-- Right section of the left panel -->
-              <section class="main-aqi-card">
-                  <h2>HITAM Air Quality Index</h2>
-                  <p id="calculated-aqi">--</p>
-                  <p id="aqi-category">Awaiting Data...</p>
-              </section>
-          </div>
-          
-          <div class="right-column">
-              <section class="sensor-grid-container">
-                  <h2>HITAM Air Quality Parameter Readings</h2>
-                  <div class="grid">
-                      <div class="card"><h3>Temperature</h3><p id="temperature">-- °C</p></div>
-                      <div class="card"><h3>Humidity</h3><p id="humidity">-- %</p></div>
-                      <div class="card"><h3>PM 2.5</h3><p id="pm25">-- μg/m³</p></div>
-                      <div class="card"><h3>PM 10</h3><p id="pm10">-- μg/m³</p></div>
-                      <div class="card"><h3>CO</h3><p id="co">--</p></div>
-                      <div class="card"><h3>Ozone (O₃)</h3><p id="ozone">--</p></div>
-                  </div>
-              </section>
-          </div>
-      </main>
+                    </div>
+                </div>
+            </section>
+            
+            <section class="main-aqi-card">
+                <h2>HITAM Air Quality Index</h2>
+                <p id="calculated-aqi">--</p>
+                <p id="aqi-category">Awaiting Data...</p>
+            </section>
+        </div>
+        
+        <div class="right-column">
+            <section class="sensor-grid-container">
+                <h2>HITAM Air Quality Parameter Readings</h2>
+                <div class="grid">
+                    <div class="card"><h3>Temperature</h3><p id="temperature">-- °C</p></div>
+                    <div class="card"><h3>Humidity</h3><p id="humidity">-- %</p></div>
+                    <div class="card"><h3>PM 2.5</h3><p id="pm25">-- &mu;g/m³</p></div>
+                    <div class="card"><h3>PM 10</h3><p id="pm10">-- &mu;g/m³</p></div>
+                    <div class="card"><h3>CO</h3><p id="co">--</p></div>
+                    <div class="card"><h3>Ozone (O₃)</h3><p id="ozone">--</p></div>
+                </div>
+            </section>
+        </div>
+    </main>
 
-      <footer>
-          <p>Designed and developed by the Class of 2026 ECE students under the IIIT Hyderabad - Research Affiliate Program • © 2025</p>
-      </footer>
-  </div>
+    <footer>
+        <p>Designed and developed by the Class of 2026 ECE students under the IIIT Hyderabad - Research Affiliate Program • © 2025</p>
+    </footer>
+</div>
 
-  <script>
-      // ThingSpeak Channel ID and Read API Key
-      const channelID = '3021426';
-      const readAPIKey = 'Y8W8UMVX9JBDUQCU'; 
+<script>
+    // --- ThingSpeak Configuration ---
+    const channelID = '3021426';
+    const readAPIKey = 'Y8W8UMVX9JBDUQCU'; 
 
-      function calculateAQI(pm25, pm10) {
-          const breakpoints = {
-              "PM2.5": [[0,30,0,50],[31,60,51,100],[61,90,101,200],[91,120,201,300],[121,250,301,400],[251,Infinity,401,500]],
-              "PM10": [[0,50,0,50],[51,100,51,100],[101,250,101,200],[251,350,201,300],[351,430,301,400],[431,Infinity,401,500]]
-          };
+    // --- AQI Calculation Logic ---
+    function calculateAQI(pm25, pm10) {
+        const breakpoints = {
+            "PM2.5": [[0,30,0,50],[31,60,51,100],[61,90,101,200],[91,120,201,300],[121,250,301,400],[251,Infinity,401,500]],
+            "PM10": [[0,50,0,50],[51,100,51,100],[101,250,101,200],[251,350,201,300],[351,430,301,400],[431,Infinity,401,500]]
+        };
 
-          function getSubIndex(value, pollutant) {
-              if (isNaN(value)) return 0;
-              const poll_breakpoints = breakpoints[pollutant];
-              for (const [Clow, Chigh, Ilow, Ihigh] of poll_breakpoints) {
-                  if (value >= Clow && value <= Chigh) {
-                      return Math.round(((Ihigh - Ilow) / (Chigh - Clow)) * (value - Clow) + Ilow);
-                  }
-              }
-              if (value > poll_breakpoints[poll_breakpoints.length - 1][1]) {
-                  return poll_breakpoints[poll_breakpoints.length - 1][3];
-              }
-              return 0;
-          }
+        function getSubIndex(value, pollutant) {
+            if (isNaN(value)) return 0;
+            const poll_breakpoints = breakpoints[pollutant];
+            for (const [Clow, Chigh, Ilow, Ihigh] of poll_breakpoints) {
+                if (value >= Clow && value <= Chigh) {
+                    return Math.round(((Ihigh - Ilow) / (Chigh - Clow)) * (value - Clow) + Ilow);
+                }
+            }
+            if (value > poll_breakpoints[poll_breakpoints.length - 1][1]) {
+                return poll_breakpoints[poll_breakpoints.length - 1][3];
+            }
+            return 0;
+        }
 
-          const aqi25 = getSubIndex(pm25, "PM2.5");
-          const aqi10 = getSubIndex(pm10, "PM10");
-          const overall = Math.max(aqi25, aqi10);
-
-          const category = overall <= 50 ? "Good" :
+        const aqi25 = getSubIndex(pm25, "PM2.5");
+        const aqi10 = getSubIndex(pm10, "PM10");
+        const overall = Math.max(aqi25, aqi10);
+        const category = overall <= 50 ? "Good" :
                             overall <= 100 ? "Moderate" :
                             overall <= 200 ? "Poor" :
                             overall <= 300 ? "Unhealthy" :
                             overall <= 400 ? "Severe" :
                             "Hazardous";
 
-          return { aqi: overall, category: `Air Quality is ${category}` };
-      }
+        return { aqi: overall, category: `Air Quality is ${category}` };
+    }
 
-      function getTimestamp() {
-          return new Date().toLocaleString('en-IN', { timeStyle: 'medium', dateStyle: 'long', hour12: true });
-      }
+    // --- Utility Functions ---
+    function getTimestamp() {
+        return new Date().toLocaleString('en-IN', { timeStyle: 'medium', dateStyle: 'long', hour12: true });
+    }
 
-      async function fetchThingSpeakData() {
-          const url = `https://api.thingspeak.com/channels/${channelID}/feeds/last.json?api_key=${readAPIKey}`;
-          try {
-              const response = await fetch(url);
-              if (!response.ok) throw new Error(`Network response was not ok: ${response.statusText}`);
-              const data = await response.json();
+    // --- Data Fetching and UI Update ---
+    async function fetchThingSpeakData() {
+        const url = `https://api.thingspeak.com/channels/${channelID}/feeds/last.json?api_key=${readAPIKey}`;
+        try {
+            const response = await fetch(url);
+            if (!response.ok) throw new Error(`Network response was not ok: ${response.statusText}`);
+            const data = await response.json();
 
-              if (data === -1 || !data.field1) throw new Error("Channel is empty or has no data.");
+            if (data === -1 || !data.field1) throw new Error("Channel is empty or has no recent data.");
 
-              const temp = parseFloat(data.field1);
-              const humidity = parseFloat(data.field2);
-              const pm25 = parseFloat(data.field3);
-              const pm10 = parseFloat(data.field4);
-              
-              document.getElementById("temperature").innerHTML = isNaN(temp) ? "-- °C" : `${temp.toFixed(2)} °C`;
-              document.getElementById("humidity").innerHTML = isNaN(humidity) ? "-- %" : `${humidity.toFixed(2)} %`;
-              document.getElementById("pm25").innerHTML = isNaN(pm25) ? "-- &mu;g/m³" : `${pm25.toFixed(2)} &mu;g/m³`;
-              document.getElementById("pm10").innerHTML = isNaN(pm10) ? "-- &mu;g/m³" : `${pm10.toFixed(2)} &mu;g/m³`;
+            const temp = parseFloat(data.field1);
+            const humidity = parseFloat(data.field2);
+            const pm25 = parseFloat(data.field3);
+            const pm10 = parseFloat(data.field4);
+            
+            document.getElementById("temperature").innerHTML = isNaN(temp) ? "-- °C" : `${temp.toFixed(1)} °C`;
+            document.getElementById("humidity").innerHTML = isNaN(humidity) ? "-- %" : `${humidity.toFixed(1)} %`;
+            document.getElementById("pm25").innerHTML = isNaN(pm25) ? "-- &mu;g/m³" : `${pm25.toFixed(1)} &mu;g/m³`;
+            document.getElementById("pm10").innerHTML = isNaN(pm10) ? "-- &mu;g/m³" : `${pm10.toFixed(1)} &mu;g/m³`;
 
-              if (!isNaN(pm25) || !isNaN(pm10)) {
-                  const { aqi, category } = calculateAQI(pm25, pm10);
-                  document.getElementById("calculated-aqi").innerText = aqi;
-                  document.getElementById("aqi-category").innerText = category;
-              } else {
-                  document.getElementById("calculated-aqi").innerText = "--";
-                  document.getElementById("aqi-category").innerText = "Awaiting Data...";
-              }
-              
-              document.getElementById("last-updated").innerText = `Last Updated: ${getTimestamp()}`;
+            if (!isNaN(pm25) || !isNaN(pm10)) {
+                const { aqi, category } = calculateAQI(pm25, pm10);
+                document.getElementById("calculated-aqi").innerText = aqi;
+                document.getElementById("aqi-category").innerText = category;
+            } else {
+                document.getElementById("calculated-aqi").innerText = "--";
+                document.getElementById("aqi-category").innerText = "Awaiting Data...";
+            }
+            
+            document.getElementById("last-updated").innerText = `Last Updated: ${getTimestamp()}`;
+            document.getElementById("co").innerText = "--";
+            document.getElementById("ozone").innerText = "--";
 
-              document.getElementById("co").innerText = "--";
-              document.getElementById("ozone").innerText = "--";
+        } catch (error) {
+            console.error("Error fetching ThingSpeak data:", error);
+            document.getElementById("aqi-category").innerText = "Failed to load data.";
+            document.getElementById("last-updated").innerText = `Failed to update. Retrying...`;
+        }
+    }
 
-          } catch (error) {
-              console.error("Error fetching ThingSpeak data:", error);
-              document.getElementById("aqi-category").innerText = "Failed to load data.";
-          }
-      }
-
-      window.addEventListener('DOMContentLoaded', () => {
-          fetchThingSpeakData();
-          setInterval(fetchThingSpeakData, 15000);
-      });
-  </script>
+    // --- Initial Load and Interval ---
+    window.addEventListener('DOMContentLoaded', () => {
+        fetchThingSpeakData();
+        setInterval(fetchThingSpeakData, 15000);
+    });
+</script>
 </body>
 </html>
